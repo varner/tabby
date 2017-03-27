@@ -1,0 +1,16 @@
+amqp==2.1.4
+appdirs==1.4.3
+arrow==0.10.0
+billiard==3.5.0.2
+celery==4.0.2
+Django==1.10.6
+httplib2==0.10.3
+kombu==4.0.2
+packaging==16.8
+pyparsing==2.2.0
+python-dateutil==2.6.0
+pytz==2016.10
+redis==2.10.5
+six==1.10.0
+twilio==5.7.0
+vine==1.1.3
