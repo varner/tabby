@@ -3,3 +3,5 @@ db.sqlite3
 taboo/.DS_Store
 taboo/settings.py
 venv/
+*.pyc
+*/migrations/*
