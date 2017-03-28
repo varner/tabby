@@ -5,12 +5,15 @@ import json
 import urllib2
 
 
+class RecievedMessage(models.Model):
+    body = models.TextFiled(_("Body"))
 
+'''
 def get_moon_phase(month, day, year):
     # month: int, 1 - 12
     # day:   int, 1 - 31
     # year:  int, 1700 - 2100
-    
+
     url = "http://api.usno.navy.mil/moon/phase?date=%d/%d/%d&nump=1" % (month, day, year)
     response = urllib2.urlopen(url)
     data = json.load(response)
@@ -24,3 +27,4 @@ def get_moon_phase(month, day, year):
 
     # if there's a totally different phase then we've really fucked up! return -1 to signal for help
     return -1
+'''
