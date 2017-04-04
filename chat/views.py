@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 #from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
 
@@ -12,6 +13,7 @@ def index(request):
 
 # RECIEVE A NEW TEXT
 #@twilio_view
+@csrf_exempt
 def sms(request):
     # PROCESS TEXT
     # if user exists:
