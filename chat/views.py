@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.utils import timezone
 #from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
 
@@ -14,16 +14,23 @@ def sms(request):
     # PROCESS TEXT
     # if user exists:
     username = request.POST.get('From', '')
-    if User.filter(username=username).exists():
+
+    if User.filter(username=username).exists(): # AND IS NOT EXPIRED
+        recieved_message = request.POST.get('Body', '')
         user = User.objects.get(username=username)
-        # HAVE TO GET THE THING
+        # IF MESSAGE ALREADY EXISTS
+        if Message.filter(sender=user).exists():
+            # APPEND MESSAGE TO MESSAGE QUEUE
+            message = Message.objects.get(sender=user)
+            message.body += "\n%s" % recieved_message
+            message.last_updated = timezone.now()
+            message.save()
+        else: # ELSE MAKE MESSAGE
+            Message.objects.create_message(sender=user, body=recieved_message)
+            # THROW RESPONSE INTO QUEUE
+        # GIVE EMPTY RESPONSE TO CALLBACK
         r = Response()
         return r
-        '''if user.get_name():
-                                    # it's ok to have a conversation
-                                    pass
-                                else:
-                                    onboard(user) '''
     # GIVE EMPTY RESPONSE TO CALLBACK
     r = Response()
     return r

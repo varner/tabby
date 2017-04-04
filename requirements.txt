@@ -16,6 +16,7 @@ pyparsing==2.2.0
 python-dateutil==2.6.0
 pytz==2016.10
 redis==2.10.5
+requests==2.7.0
 six==1.10.0
 twilio==5.7.0
 vine==1.1.3
