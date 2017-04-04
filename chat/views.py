@@ -18,7 +18,8 @@ def sms(request):
     # PROCESS TEXT
     # if user exists:
     username = request.POST.get('From', '')
-    twiml = '<Response><Message>im still testing</Message></Response>'
+    r = Response()
+    r.message('im trying!')
 
     if User.objects.filter(username=username).exists(): # AND IS NOT EXPIRED
         recieved_message = request.POST.get('Body', '')
@@ -34,13 +35,6 @@ def sms(request):
             Message.objects.create_message(sender=user, body=recieved_message)
             # THROW RESPONSE INTO QUEUE
         # GIVE EMPTY RESPONSE TO CALLBACK
-        return HttpResponse(twiml, content_type='text/xml')
+        return HttpResponse(r.toxml(), content_type='text/xml')
     # GIVE EMPTY RESPONSE TO CALLBACK
-    return HttpResponse(twiml, content_type='text/xml')
-
-'''def onboard(User):
-    mood = check_mood()
-    ask_for_name()
-
-    r = Response()
-    return r'''
+    return HttpResponse(r.toxml(), content_type='text/xml')
