@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
+from django.contrib.auth.models import User
 #from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
+
 
 # Create your views here.
 def index(request):
