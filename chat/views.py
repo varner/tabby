@@ -28,7 +28,7 @@ def sms(request):
         recieved_message = request.POST.get('Body', '')
         user = User.objects.get(username=username)
         # IF MESSAGE ALREADY EXISTS
-        if Message.filter(sender=user).exists():
+        if Message.objects.filter(sender=user).exists():
             # APPEND MESSAGE TO MESSAGE QUEUE
             message = Message.objects.get(sender=user)
             message.body += "\n%s" % recieved_message
