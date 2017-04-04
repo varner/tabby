@@ -14,6 +14,7 @@ httplib2==0.10.3
 kombu==3.0.37
 packaging==16.8
 phonenumberslite==8.3.3
+psycopg2==2.7.1
 pyparsing==2.2.0
 python-dateutil==2.6.0
 pytz==2016.10
