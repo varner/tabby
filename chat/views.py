@@ -21,7 +21,6 @@ def sms(request):
     username = request.POST.get('From', '')
     print username
     r = Response()
-    r.message('im trying, %s!' % username)
 
     if User.objects.filter(username=username).exists(): # AND IS NOT EXPIRED
         print "user exists"
