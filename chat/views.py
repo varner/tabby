@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 #from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
+from chat.models import Profile, Message
 
 
 # Create your views here.
