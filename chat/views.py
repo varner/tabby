@@ -19,7 +19,7 @@ def sms(request):
     # if user exists:
     username = request.POST.get('From', '')
     r = Response()
-    r.message('im trying!')
+    r.message('im trying, %s!' % username)
 
     if User.objects.filter(username=username).exists(): # AND IS NOT EXPIRED
         recieved_message = request.POST.get('Body', '')
