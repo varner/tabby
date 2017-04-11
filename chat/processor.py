@@ -1,29 +1,42 @@
-# process message
+from django.utils import timezone
+from django.contrib.auth.models import User
 
-class Processor():
+from chat.models import Profile, Message
+
+from twilio.rest import TwilioRestClient as Client
+from datetime import datetime, date
+
+def collect_messages(last_checked):
+	client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 	
-	def __init__(self):
-		pass
+	checked_day   = last_checked.day
+	checked_month = last_checked.month
+	checked_year  = last_checked.year
 
-	def onboarding(self):
-		pass
+	bodied = ""
 
-	def get_moon_phase(self, month, day, year):
-    	# month: int, 1 - 12
-    	# day:   int, 1 - 31
-    	# year:  int, 1700 - 2100
+	# A list of message objects with the properties described above
+	for message in client.messages.list(date_sent=date(2017, 4, 11)):
+	    if message.date_sent >= last_checked:
+	    	user = message.from_
+	    	bodied = message.body + "\n" + bodied
+	    	#client.messages.delete(message.name)
+	bodied = bodied.strip()
+	last_checked = right_now
+	print bodied
 
-    	url = "http://api.usno.navy.mil/moon/phase?date=%d/%d/%d&nump=1" % (month, day, year)
-    	response = urllib2.urlopen(url)
-    	data = json.load(response)
-    	phase = data['phasedata'][0]['phase']
-
-    	# there's only four phases! we're just converting them into numbers because whatever
-    	if   phase == u'New Moon':      return 0
-    	elif phase == u'First Quarter': return 1
-    	elif phase == u'Full Moon':     return 2
-    	elif phase == u'Last Quarter':  return 3
-
-    	# if there's a totally different phase then we've really fucked up! return -1 to signal for help
-    	return -1
-
+	for message in client.messages.list(date_sent=date(checked_year, checked_month, checked_day)):
+		username = message.from_
+		if User.objects.filter(username=username).exists(): # and last_checked
+    	    print "user exists"
+    	    recieved_message = message.body
+    	    user = User.objects.get(username=username)
+    	    # IF MESSAGE ALREADY EXISTS
+    	    if Message.objects.filter(sender=user).exists():
+    	        # APPEND MESSAGE TO MESSAGE QUEUE
+    	        message = Message.objects.get(sender=user)
+    	        message.body += "\n%s" % recieved_message
+    	        message.last_updated = timezone.now()
+    	        message.save()
+    	    else: # ELSE MAKE MESSAGE
+    	        Message.objects.create_message(sender=user, body=recieved_message)
