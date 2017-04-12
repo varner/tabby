@@ -3,6 +3,7 @@ from django.db import models
 
 import json
 import urllib2
+from datetime import date
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -16,7 +17,10 @@ class Profile(models.Model):
     user  = models.OneToOneField(User, on_delete=models.CASCADE)
     level = models.PositiveSmallIntegerField(blank=True, default=0)
     trust = models.PositiveSmallIntegerField(blank=True, default=30)
-    subscription_end = models.DateField(null=True, blank=True)
+    subscription_end = models.DateField(blank=True, default=date.today())
+
+    def isActive(self):
+        return (self.subscription_end >= date.today())
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
