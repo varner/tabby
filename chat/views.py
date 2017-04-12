@@ -27,6 +27,7 @@ def sms(request):
         recieved_message = request.POST.get('Body', '')
         user = User.objects.get(username=username)
         if user.Profile.isActive():
+            print "this worked???"
             # IF MESSAGE ALREADY EXISTS
             if Message.objects.filter(sender=user).exists():
                 # APPEND MESSAGE TO MESSAGE QUEUE
@@ -39,5 +40,6 @@ def sms(request):
                 # THROW RESPONSE INTO QUEUE
             # GIVE EMPTY RESPONSE TO CALLBACK
             return HttpResponse(r.toxml(), content_type='text/xml')
+        print "function didn't work ))):"
     # GIVE EMPTY RESPONSE TO CALLBACK
     return HttpResponse(r.toxml(), content_type='text/xml')
