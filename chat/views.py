@@ -26,7 +26,7 @@ def sms(request):
         print "user exists"
         recieved_message = request.POST.get('Body', '')
         user = User.objects.get(username=username)
-        if user.Profile.isActive():
+        if user.profile.isActive():
             print "this worked???"
             # IF MESSAGE ALREADY EXISTS
             if Message.objects.filter(sender=user).exists():
