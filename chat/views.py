@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from twilio.twiml import Response
 from chat.models import Caller, Message
 
+
 # Create your views here.
 def index(request):
     return HttpResponse("GET OUT!")
@@ -30,7 +31,6 @@ def sms(request):
                 message.save()
             else: # ELSE MAKE MESSAGE
                 Message.objects.create_message(sender=user, body=recieved_message)
-
                 # THROW RESPONSE INTO QUEUE
             # GIVE EMPTY RESPONSE TO CALLBACK
             return HttpResponse(r.toxml(), content_type='text/xml')
