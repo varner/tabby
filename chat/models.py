@@ -15,10 +15,10 @@ PROFILE
 '''
 class Caller(models.Model):
     phone = models.CharField(max_length=50)
-    name  = models.CharField(max_length=50)
+    name  = models.CharField(max_length=50, blank=True)
     # -----
     registered_on = models.DateField(default=(timezone.now))
-    subscription_end = models.DateField(blank=True, default=timezone.now)
+    subscription_end = models.DateField(default=timezone.now)
     # -----
     level = models.PositiveSmallIntegerField(blank=True, default=0)
     trust = models.PositiveSmallIntegerField(blank=True, default=30)
@@ -30,13 +30,8 @@ class Caller(models.Model):
         self.level += 1
         return level
 
-'''
-MANAGE MESSAGES
-'''
-class MessageManager(models.Manager):
-    def create_message(self, sender, body):
-        message = self.create(sender=sender, body=body, last_updated=timezone.now)
-        return message
+    def __str__(self):
+        return self.phone
 
 '''
 RECIEVED MESSAGES

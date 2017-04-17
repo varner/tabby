@@ -23,41 +23,56 @@ def process_messages():
     pass
 
 def read_message(message):
-    user  = message.user
+    caller = Caller.objects.get(phone=message.user)
+    body  = message.body.lower()
     level = user.level
 
     if level is 0:
-        ask_name(user)
+        ask_name(caller, message)
     elif level is 1:
-        confirm_name(user)
+        confirm_name(caller, message)
     elif level is 2:
-        #if yes:
-        affirm_name(user)
-        #if no:
-        ask_name(user)
-        #else:
-        clarify_name(user)
+        if "yes" in body:
+        	affirm_name(caller, message)
+        elif "no" in body:
+        	ask_name(caller, message)
+        else:
+        	clarify_name(caller, message)
     else:
         pass
 
-def ask_name(username):
+def ask_name(caller, message):
+	caller.level = 1
+	caller.save()
+
 	send_message(username, "uhh who r u")
-    pass
+   	
 
-def confirm_name(message):
-	message.body.lower()
-	username = message.user
-	user = User.objects.get(username=username)
+def confirm_name(caller, message):
+	name = message.body.lower().strip()
+
+	caller.name = name
+	caller.level = 2
+	caller.save()
+
 	send_message(username, "so ur name is %s?")
-    pass
 
-def clarify_name(username):
-	send_message(username, "uhhh so ur name is %s....yes or no??")
-	pass
+def clarify_name(caller, message):
+	name = message.body.lower().strip()
 
-def affirm_name(username):
-	user = User.objects.get(username=username)
-	send_message(username, "ok good to know")
+	caller.name = name
+	caller.level = 2
+	caller.save()
+
+	send_message(caller.phone, "uhhh so ur name is %s....yes or no??" % name)
+
+def affirm_name(caller, message):
+	response = caller.name + (caller.name[-1] * 4)
+	send_message(user, response)
+	send_message(user, "ok good to know")
+
+	caller.level = 3
+	caller.save()
 
 def send_message(username, message):
 	twilio_client.messages.create(
