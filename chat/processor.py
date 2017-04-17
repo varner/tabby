@@ -1,10 +1,12 @@
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from chat.models import Profile, Message
+from chat.models import Caller, Message
 
 from twilio.rest import TwilioRestClient as Client
 from datetime import datetime, date
+
+twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 def check_phone(last_checked):
     collect_messages(last_checked)
@@ -31,25 +33,43 @@ def read_message(message):
     elif level is 2:
         #if yes:
         affirm_name(user)
+        #if no:
+        ask_name(user)
         #else:
-        confirm_name(user)
+        clarify_name(user)
     else:
         pass
 
-def ask_name(user):
+def ask_name(username):
+	send_message(username, "uhh who r u")
     pass
 
-def confirm_name(user):
+def confirm_name(message):
+	message.body.lower()
+	username = message.user
+	user = User.objects.get(username=username)
+	send_message(username, "so ur name is %s?")
     pass
 
-def affirm_name(user):
-    pass
+def clarify_name(username):
+	send_message(username, "uhhh so ur name is %s....yes or no??")
+	pass
+
+def affirm_name(username):
+	user = User.objects.get(username=username)
+	send_message(username, "ok good to know")
+
+def send_message(username, message):
+	twilio_client.messages.create(
+	    to=username, 
+	    from_="", 
+	    body=message,
+	)
 
 def collect_messages(last_checked):
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     accessed_users = set()
 
-    for message in client.messages.list(date_sent=last_checked.date()):
+    for message in twilio_client.messages.list(date_sent=last_checked.date()):
         username = message.from_
         if (username in accessed_users or User.objects.filter(username=username).exists()):
             user = User.objects.get(username=username)

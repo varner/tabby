@@ -13,14 +13,22 @@ from django.utils import timezone
 '''
 PROFILE
 '''
-class Profile(models.Model):
-    user  = models.OneToOneField(User, on_delete=models.CASCADE)
+class Caller(models.Model):
+    phone = models.CharField(max_length=50)
+    name  = models.CharField(max_length=50)
+    # -----
+    registered_on = models.DateField(default=date.today())
+    subscription_end = models.DateField(blank=True, default=(date.today() + timedelta(days=30)))
+    # -----
     level = models.PositiveSmallIntegerField(blank=True, default=0)
     trust = models.PositiveSmallIntegerField(blank=True, default=30)
-    subscription_end = models.DateField(blank=True, default=date.today())
 
     def isActive(self):
         return (self.subscription_end >= date.today())
+
+    def advanceLevel(self):
+        self.level += 1
+        return level
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
