@@ -16,18 +16,12 @@ def index(request):
 #@twilio_view
 @csrf_exempt
 def sms(request):
-    # PROCESS TEXT
-    # if user exists:
     username = request.POST.get('From', '')
-    print username
     r = Response()
-
-    if User.objects.filter(username=username).exists(): # AND IS NOT EXPIRED
-        print "user exists"
-        recieved_message = request.POST.get('Body', '')
+    if User.objects.filter(username=username).exists(): # DOES USER EXIST?
         user = User.objects.get(username=username)
-        if user.profile.isActive():
-            print "this worked???"
+        if user.profile.isActive(): # AND IS NOT EXPIRED
+            recieved_message = request.POST.get('Body', '')
             # IF MESSAGE ALREADY EXISTS
             if Message.objects.filter(sender=user).exists():
                 # APPEND MESSAGE TO MESSAGE QUEUE
@@ -40,6 +34,4 @@ def sms(request):
                 # THROW RESPONSE INTO QUEUE
             # GIVE EMPTY RESPONSE TO CALLBACK
             return HttpResponse(r.toxml(), content_type='text/xml')
-        print "function didn't work ))):"
-    # GIVE EMPTY RESPONSE TO CALLBACK
     return HttpResponse(r.toxml(), content_type='text/xml')
