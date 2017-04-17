@@ -42,7 +42,7 @@ class MessageManager(models.Manager):
 RECIEVED MESSAGES
 '''
 class Message(models.Model):
-    sender       = models.ForeignKey(User, related_name="Sender")
+    sender       = models.ForeignKey(Caller, related_name="Sender")
     last_updated = models.DateField(default=timezone.now)
     body         = models.TextField(null=True, blank=True)
 
