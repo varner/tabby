@@ -34,6 +34,14 @@ class Caller(models.Model):
         return self.phone
 
 '''
+MANAGE MESSAGES
+'''
+class MessageManager(models.Manager):
+    def create_message(self, sender, body):
+        message = self.create(sender=sender, body=body, last_updated=timezone.now)
+        return message
+
+'''
 RECIEVED MESSAGES
 '''
 class Message(models.Model):
