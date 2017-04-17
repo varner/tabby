@@ -3,7 +3,7 @@ from django.db import models
 
 import json
 import urllib2
-from datetime import date
+from datetime import date, timedelta
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -17,8 +17,8 @@ class Caller(models.Model):
     phone = models.CharField(max_length=50)
     name  = models.CharField(max_length=50)
     # -----
-    registered_on = models.DateField(default=date.today())
-    subscription_end = models.DateField(blank=True, default=(date.today() + timedelta(days=30)))
+    registered_on = models.DateField(default=(timezone.now))
+    subscription_end = models.DateField(blank=True, default=timezone.now)
     # -----
     level = models.PositiveSmallIntegerField(blank=True, default=0)
     trust = models.PositiveSmallIntegerField(blank=True, default=30)
@@ -29,16 +29,6 @@ class Caller(models.Model):
     def advanceLevel(self):
         self.level += 1
         return level
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
 
 '''
 MANAGE MESSAGES
