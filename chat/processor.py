@@ -32,17 +32,18 @@ def read_message(message):
 
     if lvl == 0:
         send_message(caller.phone, "wats ur name")
-        caller.level = 1
+        #caller.level = 1
     elif lvl == 1:
         send_message(caller.phone, "hi %s" % body)
-        caller.level = 2
-        caller.name = body
+        #caller.level = 2
+       # caller.name = body
     elif lvl == 2:
-        caller.level = 3
+        send_message(caller.phone, "you're level 2")
+       # caller.level = 3
     else:
         print "help"
 
-    caller.save()
+    #caller.save()
 
 def send_message(username, message):
     twilio_client.messages.create(
