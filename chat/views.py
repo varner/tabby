@@ -23,22 +23,46 @@ def collect(request):
 #@twilio_view
 @csrf_exempt
 def sms(request):
-    username = request.POST.get('From', '')
+    phone = request.POST.get('From', '')
     r = Response()
-    if User.objects.filter(username=username).exists(): # DOES USER EXIST?
-        user = User.objects.get(username=username)
-        if user.profile.isActive(): # AND IS NOT EXPIRED
+    if Caller.objects.filter(phone=phone).exists(): # DOES USER EXIST?
+        caller = Caller.objects.get(phone=phone)
+        if caller.isActive(): # AND IS NOT EXPIRED
             recieved_message = request.POST.get('Body', '')
-            # IF MESSAGE ALREADY EXISTS
-            if Message.objects.filter(sender=user).exists():
-                # APPEND MESSAGE TO MESSAGE QUEUE
-                message = Message.objects.get(sender=user)
-                message.body += "\n%s" % recieved_message
-                message.last_updated = timezone.now()
-                message.save()
-            else: # ELSE MAKE MESSAGE
-                Message.objects.create_message(sender=user, body=recieved_message)
-                # THROW RESPONSE INTO QUEUE
-            # GIVE EMPTY RESPONSE TO CALLBACK
-            return HttpResponse(r.toxml(), content_type='text/xml')
+            Message.objects.create_message(sender=caller, body=recieved_message)
+            
     return HttpResponse(r.toxml(), content_type='text/xml')
+
+
+
+
+#def collect_messages(last_checked):
+#    accessed_callers = set()
+#
+#    for text in twilio_client.messages.list(date_sent=last_checked.date()):
+#        logging.error("%s %s" % (text.date_created, text.body))
+#        phone = text.from_
+#        if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
+#            caller = Caller.objects.get(phone=phone)
+#            date_sent = text.date_sent.replace(tzinfo=pytz.utc)
+#            logging.error(date_sent)
+#            logging.error(text.body)
+#            logging.error(last_checked)
+#            if date_sent >= last_checked:
+#                if caller.isActive():
+#                    recieved_message = text.body
+                    # IF MESSAGE ALREADY EXISTS
+        #            if Message.objects.filter(sender=caller).exists():
+        #                # APPEND MESSAGE TO MESSAGE QUEUE
+        #                message = Message.objects.get(sender=caller)
+        #                message.body += "\n%s" % recieved_message
+        #                message.last_updated = timezone.now()
+        #                message.save()
+        #                logging.error("editing old message")
+        #            else: # ELSE MAKE MESSAGE
+        #                Message.objects.create_message(sender=caller, body=recieved_message)
+        #                logging.error("making new message")
+        #        else: logging.error("user not active???")
+        #    else:
+        #        logging.error("not within range")
+        #        #break

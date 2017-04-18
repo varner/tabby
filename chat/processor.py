@@ -58,6 +58,7 @@ def collect_messages(last_checked):
     accessed_callers = set()
 
     for text in twilio_client.messages.list(date_sent=last_checked.date()):
+        logging.error("%s %s" % (text.date_created, text.body))
         phone = text.from_
         if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
             caller = Caller.objects.get(phone=phone)
@@ -69,20 +70,20 @@ def collect_messages(last_checked):
                 if caller.isActive():
                     recieved_message = text.body
                     # IF MESSAGE ALREADY EXISTS
-                    if Message.objects.filter(sender=caller).exists():
-                        # APPEND MESSAGE TO MESSAGE QUEUE
-                        message = Message.objects.get(sender=caller)
-                        message.body += "\n%s" % recieved_message
-                        message.last_updated = timezone.now()
-                        message.save()
-                        logging.error("editing old message")
-                    else: # ELSE MAKE MESSAGE
-                        Message.objects.create_message(sender=caller, body=recieved_message)
-                        logging.error("making new message")
-                else: logging.error("user not active???")
-            else:
-                logging.error("not within range")
-                #break
+        #            if Message.objects.filter(sender=caller).exists():
+        #                # APPEND MESSAGE TO MESSAGE QUEUE
+        #                message = Message.objects.get(sender=caller)
+        #                message.body += "\n%s" % recieved_message
+        #                message.last_updated = timezone.now()
+        #                message.save()
+        #                logging.error("editing old message")
+        #            else: # ELSE MAKE MESSAGE
+        #                Message.objects.create_message(sender=caller, body=recieved_message)
+        #                logging.error("making new message")
+        #        else: logging.error("user not active???")
+        #    else:
+        #        logging.error("not within range")
+        #        #break
 
 #   if level is 0:
 #       ask_name(caller, message)
