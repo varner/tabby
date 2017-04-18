@@ -10,8 +10,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-import logging
-
 '''
 PROFILE
 '''
@@ -40,7 +38,7 @@ MANAGE MESSAGES
 '''
 class MessageManager(models.Manager):
     def create_message(self, sender, body):
-        message = self.create(sender=sender, body=body, last_updated=timezone.now())
+        message = self.create(sender=sender, body=body)
         return message
 
 '''
@@ -48,7 +46,7 @@ RECIEVED MESSAGES
 '''
 class Message(models.Model):
     sender       = models.ForeignKey(Caller, related_name="Sender")
-    last_updated = models.DateField(default=timezone.now)
+    last_updated = models.DateTimeField(auto_now_add=True)
     body         = models.TextField(null=True, blank=True)
 
     objects = MessageManager()
