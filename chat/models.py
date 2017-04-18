@@ -24,7 +24,7 @@ class Caller(models.Model):
     trust = models.PositiveSmallIntegerField(blank=True, default=30)
 
     def isActive(self):
-        return (self.subscription_end >= timezone.now)
+        return (self.subscription_end >= timezone.now())
 
     def advanceLevel(self):
         self.level += 1
