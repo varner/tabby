@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Twilio
 TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
-TWILIO_AUTH_TOKEN  = os.environ['SECRET_KEY']
+TWILIO_AUTH_TOKEN  = os.environ['TWILLIO_AUTH_TOKEN']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
