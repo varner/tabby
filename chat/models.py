@@ -38,7 +38,7 @@ MANAGE MESSAGES
 '''
 class MessageManager(models.Manager):
     def create_message(self, sender, body):
-        message = self.create(sender=sender, body=body, sent=timezone.now)
+        message = self.create(sender=sender, body=body, sent=timezone.now())
         return message
 
 '''
