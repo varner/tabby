@@ -13,7 +13,7 @@ def check_phone(last_checked):
     collect_messages(last_checked)
 
     # now get all the completed messages
-    messages = Messages.objects.all()
+    messages = Message.objects.all()
     for message in messages.iterator():
         # read and send message
         read_message(message)
