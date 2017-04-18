@@ -52,20 +52,20 @@ def collect_messages(last_checked):
     for message in twilio_client.messages.list(date_sent=last_checked.date()):
         phone = message.from_
         if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
-            caller = Caller.objects.get(phone=username)
+            caller = Caller.objects.get(phone=phone)
             date_sent = message.date_sent.replace(tzinfo=pytz.utc)
             if date_sent >= last_checked:
                 if caller.isActive():
                     recieved_message = message.body
                     # IF MESSAGE ALREADY EXISTS
-                    if Message.objects.filter(sender=user).exists():
+                    if Message.objects.filter(sender=caller).exists():
                         # APPEND MESSAGE TO MESSAGE QUEUE
-                        message = Message.objects.get(sender=user)
+                        message = Message.objects.get(sender=caller)
                         message.body += "\n%s" % recieved_message
                         message.last_updated = timezone.now()
                         message.save()
                     else: # ELSE MAKE MESSAGE
-                        Message.objects.create_message(sender=user, body=recieved_message)
+                        Message.objects.create_message(sender=caller, body=recieved_message)
             else:
                 break
 
