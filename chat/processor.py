@@ -7,6 +7,8 @@ from twilio.rest import TwilioRestClient as Client
 from datetime import datetime, date
 import pytz
 
+import logging
+
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
 def check_phone(last_checked):
@@ -18,7 +20,7 @@ def check_phone(last_checked):
         # read and send message
         read_message(message)
         # then delete it from the archive
-        message.delete()
+        #message.delete()
 
     # check schedule
     # schedule next phone check accordingly
@@ -70,9 +72,13 @@ def collect_messages(last_checked):
                         message.body += "\n%s" % recieved_message
                         message.last_updated = timezone.now()
                         message.save()
+                        logging.error("editing old message")
                     else: # ELSE MAKE MESSAGE
                         Message.objects.create_message(sender=caller, body=recieved_message)
+                        logging.error("making new message")
+                else: logging.error("user not active???")
             else:
+                logging.error("not within range")
                 break
 
 #   if level is 0:
