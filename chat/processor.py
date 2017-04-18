@@ -12,16 +12,19 @@ import logging
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
 def check_phone(last_checked):
-    collect_messages(last_checked)
+   #collect_messages(last_checked)
 
-    # now get all the completed messages
+    callers = dict()
+    # read all the messages, compress into bundles
     messages = Message.objects.all()
     for message in messages.iterator():
+        if message.sender in callers.keys():
+            callers[message.sender] = callers[message.sender] + "" message.body
+        message.delete()
         # read and send message
-        read_message(message)
+        #read_message(message)
         # then delete it from the archive
         #message.delete()
-
     # check schedule
     # schedule next phone check accordingly
 
@@ -34,9 +37,10 @@ def read_message(message):
 
     if lvl == 0:
         send_message(caller.phone, "wats ur name")
-        #caller.level = 1
+        caller.advanceLevel()
     elif lvl == 1:
         send_message(caller.phone, "hi %s" % body)
+        caller.advanceLevel()
         #caller.level = 2
        # caller.name = body
     elif lvl == 2:
@@ -54,21 +58,23 @@ def send_message(username, message):
         body=message,
     )
 
-def collect_messages(last_checked):
-    accessed_callers = set()
+#def collect_messages(last_checked):
+    callers = dict()
 
-    for text in twilio_client.messages.list(date_sent=last_checked.date()):
-        logging.error("%s %s" % (text.date_created, text.body))
-        phone = text.from_
-        if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
-            caller = Caller.objects.get(phone=phone)
-            date_sent = text.date_sent.replace(tzinfo=pytz.utc)
-            logging.error(date_sent)
-            logging.error(text.body)
-            logging.error(last_checked)
-            if date_sent >= last_checked:
-                if caller.isActive():
-                    recieved_message = text.body
+    #for text in Message.objects.list()
+
+    #for text in twilio_client.messages.list(date_sent=last_checked.date()):
+    #    logging.error("%s %s" % (text.date_created, text.body))
+    #    phone = text.from_
+    #    if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
+    #        caller = Caller.objects.get(phone=phone)
+    #        date_sent = text.date_sent.replace(tzinfo=pytz.utc)
+    #        logging.error(date_sent)
+    #        logging.error(text.body)
+    #        logging.error(last_checked)
+    #        if date_sent >= last_checked:
+    #            if caller.isActive():
+    #                recieved_message = text.body
                     # IF MESSAGE ALREADY EXISTS
         #            if Message.objects.filter(sender=caller).exists():
         #                # APPEND MESSAGE TO MESSAGE QUEUE
