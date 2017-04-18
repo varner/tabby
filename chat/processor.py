@@ -1,85 +1,49 @@
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from chat.models import Caller, Message
-
 from twilio.rest import TwilioRestClient as Client
 from datetime import datetime, date
 
-twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
 def check_phone(last_checked):
     collect_messages(last_checked)
 
-    # FOR EVERY MESSAGE: read_message(message)
-    #process_messages()
-    #send_messages()
+    # now get all the completed messages
+    messages = Messages.objects.all()
+    for message in messages.iterator():
+        # read and send message
+        read_message(message)
+        # then delete it from the archive
+        message.delete()
 
     # check schedule
     # schedule next phone check accordingly
-    pass
-
-def process_messages():
-    pass
 
 def read_message(message):
     caller = Caller.objects.get(phone=message.user)
-    body  = message.body.lower()
-    level = user.level
+    body   = message.body.lower()
+    lvl    = caller.level
 
-    if level is 0:
-        ask_name(caller, message)
-    elif level is 1:
-        confirm_name(caller, message)
-    elif level is 2:
-        if "yes" in body:
-        	affirm_name(caller, message)
-        elif "no" in body:
-        	ask_name(caller, message)
-        else:
-        	clarify_name(caller, message)
+    swear_word_list = "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
+
+    if lvl == 0:
+        send_message(caller.phone, "wats ur name")
+    elif lvl == 1:
+        pass
+    elif lvl == 2:
+        pass
     else:
         pass
 
-def ask_name(caller, message):
-	caller.level = 1
-	caller.save()
-
-	send_message(username, "uhh who r u")
-   	
-
-def confirm_name(caller, message):
-	name = message.body.lower().strip()
-
-	caller.name = name
-	caller.level = 2
-	caller.save()
-
-	send_message(username, "so ur name is %s?")
-
-def clarify_name(caller, message):
-	name = message.body.lower().strip()
-
-	caller.name = name
-	caller.level = 2
-	caller.save()
-
-	send_message(caller.phone, "uhhh so ur name is %s....yes or no??" % name)
-
-def affirm_name(caller, message):
-	response = caller.name + (caller.name[-1] * 4)
-	send_message(user, response)
-	send_message(user, "ok good to know")
-
-	caller.level = 3
-	caller.save()
-
 def send_message(username, message):
-	twilio_client.messages.create(
-	    to=username, 
-	    from_="+12164506309", 
-	    body=message,
-	)
+    twilio_client.messages.create(
+        to=username, 
+        from_="+12164506309", 
+        body=message,
+    )
 
 def collect_messages(last_checked):
     accessed_users = set()
@@ -103,3 +67,51 @@ def collect_messages(last_checked):
                         Message.objects.create_message(sender=user, body=recieved_message)
             else:
                 break
+
+#   if level is 0:
+#       ask_name(caller, message)
+#   elif level is 1:
+#       confirm_name(caller, message)
+#   elif level is 2:
+#       if "yes" in body:
+#           affirm_name(caller, message)
+#       elif "no" in body:
+#           ask_name(caller, message)
+#       else:
+#           clarify_name(caller, message)
+#   else:
+#       pass
+
+#def ask_name(caller, message):
+#   caller.level = 1
+#   caller.save()
+#
+#   send_message(username, "uhh who r u")
+#       
+#
+#def confirm_name(caller, message):
+#   name = message.body.lower().strip()
+#
+#   caller.name = name
+#   caller.level = 2
+#   caller.save()
+#
+#   send_message(username, "so ur name is %s?")
+#
+#def clarify_name(caller, message):
+#   name = message.body.lower().strip()
+#
+#   caller.name = name
+#   caller.level = 2
+#   caller.save()
+#
+#   send_message(caller.phone, "uhhh so ur name is %s....yes or no??" % name)
+#
+#def affirm_name(caller, message):
+#   response = caller.name + (caller.name[-1] * 4)
+#   send_message(user, response)
+#   send_message(user, "ok good to know")
+#
+#   caller.level = 3
+#   caller.save()
+#

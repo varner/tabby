@@ -3,14 +3,21 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 #from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
 from chat.models import Caller, Message
+from . import processor
 
 
 # Create your views here.
 def index(request):
     return HttpResponse("GET OUT!")
+
+@login_required
+def collect(request):
+    processor.check_phone(timezone.now() - timezone.timedelta(minutes=5))
+    return HttpResponse("I'M TRYING YO!")
 
 # RECIEVE A NEW TEXT
 #@twilio_view
