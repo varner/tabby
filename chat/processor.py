@@ -5,6 +5,7 @@ from django.conf import settings
 from chat.models import Caller, Message
 from twilio.rest import TwilioRestClient as Client
 from datetime import datetime, date
+import pytz
 
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
@@ -52,7 +53,7 @@ def collect_messages(last_checked):
         username = message.from_
         if (username in accessed_users or User.objects.filter(username=username).exists()):
             user = User.objects.get(username=username)
-            date_sent = message.date_sent.replace(tzinfo='utc')
+            date_sent = message.date_sent.replace(tzinfo=pytz.utc)
             if date_sent >= last_checked:
                 if user.profile.isActive():
                     recieved_message = message.body
