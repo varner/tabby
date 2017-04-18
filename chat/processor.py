@@ -24,7 +24,7 @@ def check_phone(last_checked):
     # schedule next phone check accordingly
 
 def read_message(message):
-    caller = Caller.objects.get(phone=message.user)
+    caller = message.sender
     body   = message.body.lower()
     lvl    = caller.level
 

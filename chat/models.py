@@ -52,4 +52,4 @@ class Message(models.Model):
     objects = MessageManager()
 
     def __str__(self):
-        return self.sender.username
+        return self.sender.phone
