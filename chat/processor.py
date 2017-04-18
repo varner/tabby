@@ -38,9 +38,9 @@ def read_message(message):
         caller.level = 2
         caller.name = body
     elif lvl == 2:
-        pass
+        caller.level = 3
     else:
-        pass
+        print "help"
 
     caller.save()
 
