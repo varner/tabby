@@ -52,7 +52,7 @@ def collect_messages(last_checked):
         username = message.from_
         if (username in accessed_users or User.objects.filter(username=username).exists()):
             user = User.objects.get(username=username)
-            date_sent = message.date_sent
+            date_sent = message.date_sent.replace(tzinfo=utc)
             if date_sent >= last_checked:
                 if user.profile.isActive():
                     recieved_message = message.body
