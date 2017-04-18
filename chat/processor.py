@@ -82,7 +82,7 @@ def collect_messages(last_checked):
                 else: logging.error("user not active???")
             else:
                 logging.error("not within range")
-                break
+                #break
 
 #   if level is 0:
 #       ask_name(caller, message)
