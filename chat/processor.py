@@ -62,7 +62,7 @@ def collect_messages(last_checked):
         if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
             caller = Caller.objects.get(phone=phone)
             date_sent = message.date_sent.replace(tzinfo=pytz.utc)
-            logging.error(date_sent)
+            logging.error(date_sent, message.body)
             logging.error(last_checked)
             if date_sent >= last_checked:
                 if caller.isActive():
