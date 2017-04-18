@@ -38,7 +38,7 @@ MANAGE MESSAGES
 '''
 class MessageManager(models.Manager):
     def create_message(self, sender, body):
-        message = self.create(sender=sender, body=body)
+        message = self.create(sender=sender, body=body, sent=timezone.now)
         return message
 
 '''
@@ -46,7 +46,7 @@ RECIEVED MESSAGES
 '''
 class Message(models.Model):
     sender       = models.ForeignKey(Caller, related_name="Sender")
-    last_updated = models.DateTimeField(auto_now_add=True)
+    sent         = models.DateTimeField(auto_now_add=True)
     body         = models.TextField(null=True, blank=True)
 
     objects = MessageManager()
