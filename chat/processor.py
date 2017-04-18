@@ -47,11 +47,11 @@ def send_message(username, message):
     )
 
 def collect_messages(last_checked):
-    accessed_users = set()
+    accessed_callers = set()
 
     for message in twilio_client.messages.list(date_sent=last_checked.date()):
-        username = message.from_
-        if (username in accessed_users or Caller.objects.filter(phone=username).exists()):
+        phone = message.from_
+        if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
             caller = Caller.objects.get(phone=username)
             date_sent = message.date_sent.replace(tzinfo=pytz.utc)
             if date_sent >= last_checked:
