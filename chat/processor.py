@@ -52,10 +52,10 @@ def collect_messages(last_checked):
     for message in twilio_client.messages.list(date_sent=last_checked.date()):
         username = message.from_
         if (username in accessed_users or User.objects.filter(username=username).exists()):
-            user = User.objects.get(username=username)
+            caller = Caller.objects.get(phone=username)
             date_sent = message.date_sent.replace(tzinfo=pytz.utc)
             if date_sent >= last_checked:
-                if user.profile.isActive():
+                if caller.isActive():
                     recieved_message = message.body
                     # IF MESSAGE ALREADY EXISTS
                     if Message.objects.filter(sender=user).exists():
