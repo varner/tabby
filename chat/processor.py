@@ -53,7 +53,7 @@ def collect_messages(last_checked):
         if (username in accessed_users or User.objects.filter(username=username).exists()):
             user = User.objects.get(username=username)
             
-            if date_sent >= last_checked:
+            if message.date_sent >= last_checked:
                 if user.profile.isActive():
                     recieved_message = message.body
                     # IF MESSAGE ALREADY EXISTS

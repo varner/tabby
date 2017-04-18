@@ -16,7 +16,7 @@ def index(request):
 
 @login_required
 def collect(request):
-    processor.check_phone(timezone.now() - timezone.timedelta(minutes=5))
+    processor.check_phone(timezone.now() - timezone.timedelta(hours=1))
     return HttpResponse("I'M TRYING YO!")
 
 # RECIEVE A NEW TEXT
