@@ -21,6 +21,8 @@ def check_phone(last_checked):
         if message.sender in callers.keys():
             callers[message.sender] = callers[message.sender] + "" message.body
         message.delete()
+
+        print callers
         # read and send message
         #read_message(message)
         # then delete it from the archive
