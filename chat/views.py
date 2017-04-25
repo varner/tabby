@@ -14,10 +14,10 @@ from . import processor
 def index(request):
     return HttpResponse("GET OUT!")
 
-@login_required
-def collect(request):
-    processor.check_phone(timezone.now() - timezone.timedelta(hours=1))
-    return HttpResponse("I'M TRYING YO!")
+#@login_required
+#def collect(request):
+#    processor.check_phone(timezone.now() - timezone.timedelta(hours=1))
+#    return HttpResponse("I'M TRYING YO!")
 
 # RECIEVE A NEW TEXT
 #@twilio_view
@@ -30,7 +30,7 @@ def sms(request):
         if caller.isActive(): # AND IS NOT EXPIRED
             recieved_message = request.POST.get('Body', '')
             Message.objects.create_message(sender=caller, body=recieved_message)
-            
+
     return HttpResponse(r.toxml(), content_type='text/xml')
 
 
