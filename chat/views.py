@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 #from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
 from chat.models import Caller, Message
-from . import processor
 
 
 # Create your views here.
