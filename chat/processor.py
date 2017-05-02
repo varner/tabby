@@ -25,6 +25,7 @@ def check_phone():
             callers[message.sender] = message.body
         # read and send message
         for key in callers.keys():
+            print key, "KEYS"
             print callers[key]
     # check schedule
     # schedule next phone check accordingly
