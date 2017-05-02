@@ -33,7 +33,7 @@ def check_phone():
 
 def read_message(phone, message):
     caller = Caller.objects.get(phone=phone)
-    body   = message.body.lower()
+    body   = message.lower()
     lvl    = caller.level
 
     swear_word_list = "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
