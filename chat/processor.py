@@ -45,16 +45,12 @@ def read_message(phone, message):
         send_message(caller.phone, "hi %s" % body)
         caller.advanceLevel()
         caller.name = body
-        caller.save()
-        #caller.level = 2
-       # caller.name = body
     elif lvl == 2:
         send_message(caller.phone, "you're level 2")
-       # caller.level = 3
+        caller.advanceLevel()
     else:
         print "help"
-
-    #caller.save()
+    caller.save()
 
 def send_message(username, message):
     twilio_client.messages.create(
@@ -62,53 +58,6 @@ def send_message(username, message):
         from_="+12164506309", 
         body=message,
     )
-
-#def collect_messages(last_checked):
-    callers = dict()
-
-    #for text in Message.objects.list()
-
-    #for text in twilio_client.messages.list(date_sent=last_checked.date()):
-    #    logging.error("%s %s" % (text.date_created, text.body))
-    #    phone = text.from_
-    #    if (phone in accessed_callers or Caller.objects.filter(phone=phone).exists()):
-    #        caller = Caller.objects.get(phone=phone)
-    #        date_sent = text.date_sent.replace(tzinfo=pytz.utc)
-    #        logging.error(date_sent)
-    #        logging.error(text.body)
-    #        logging.error(last_checked)
-    #        if date_sent >= last_checked:
-    #            if caller.isActive():
-    #                recieved_message = text.body
-                    # IF MESSAGE ALREADY EXISTS
-        #            if Message.objects.filter(sender=caller).exists():
-        #                # APPEND MESSAGE TO MESSAGE QUEUE
-        #                message = Message.objects.get(sender=caller)
-        #                message.body += "\n%s" % recieved_message
-        #                message.last_updated = timezone.now()
-        #                message.save()
-        #                logging.error("editing old message")
-        #            else: # ELSE MAKE MESSAGE
-        #                Message.objects.create_message(sender=caller, body=recieved_message)
-        #                logging.error("making new message")
-        #        else: logging.error("user not active???")
-        #    else:
-        #        logging.error("not within range")
-        #        #break
-
-#   if level is 0:
-#       ask_name(caller, message)
-#   elif level is 1:
-#       confirm_name(caller, message)
-#   elif level is 2:
-#       if "yes" in body:
-#           affirm_name(caller, message)
-#       elif "no" in body:
-#           ask_name(caller, message)
-#       else:
-#           clarify_name(caller, message)
-#   else:
-#       pass
 
 #def ask_name(caller, message):
 #   caller.level = 1
@@ -142,4 +91,3 @@ def send_message(username, message):
 #
 #   caller.level = 3
 #   caller.save()
-#
