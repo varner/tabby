@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from chat.models import Caller, Message
 from twilio.rest import TwilioRestClient as Client
-from datetime import datetime, date
+from datetime import datetime, date, time
 import pytz
 
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
@@ -54,23 +54,14 @@ def send_message(username, message):
     )
 
 def during_freetime():
-    schedule = [{"start": datetime.time(7,30), "end": datetime.time(10,30)}, 
-    {"start": datetime.time(13), "end": datetime.time(17,20,22)}, 
-    {"start": datetime.time(19,11), "end": datetime.time(19, 11)}]
-    #im_scared = [{ "start": datetime.time(7, 30, 0), \
-    #  "end": datetime.time(10, 30, 0) \
-    #}, { "start": datetime.time(13, 0, 0), \
-    #  "end": datetime.time(17, 20, 0) \
-    #}, { "start": datetime.time(19, 11, 0), \
-    #  "end": datetime.time(19, 55, 0) \
-    #}, { "start": datetime.time(20, 5, 0), \
-    #  "end": datetime.time(23, 3, 20) \
-    #}]
-#
-    #current = datetime.now().time()
-    #for period in im_scared: 
-    #    if current >= period['start'] and current < period['end']:
-    #        return True
+    schedule = [{"start": time(7,30), "end": time(10,30)}, 
+    {"start": time(13), "end": time(17,20,22)}, 
+    {"start": time(19,11), "end": time(19, 11)}]
+    
+    current = datetime.now().time()
+    for period in schedule: 
+        if current >= period['start'] and current < period['end']:
+            return True
     return False
 #def ask_name(caller, message):
 #   caller.level = 1
