@@ -54,6 +54,7 @@ def send_message(username, message):
     )
 
 def during_freetime():
+    schedule = [1, 2, 3, 4]
     #im_scared = [{ "start": datetime.time(7, 30, 0), \
     #  "end": datetime.time(10, 30, 0) \
     #}, { "start": datetime.time(13, 0, 0), \
