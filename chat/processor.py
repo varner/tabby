@@ -54,7 +54,7 @@ def send_message(username, message):
     )
 
 def during_freetime():
-    schedule = [{ "start": datetime.time(7, 30, 0), \
+    im_scared = [{ "start": datetime.time(7, 30, 0), \
       "end": datetime.time(10, 30, 0) \
     }, { "start": datetime.time(13, 0, 0), \
       "end": datetime.time(17, 20, 0) \
@@ -65,7 +65,7 @@ def during_freetime():
     }]
 
     current = datetime.now().time()
-    for period in schedule: 
+    for period in im_scared: 
         if current >= period['start'] and current < period['end']:
             return True
     return False
