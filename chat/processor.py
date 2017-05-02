@@ -20,13 +20,12 @@ def check_phone():
     messages = Message.objects.all().order_by('sent')
     for message in messages.iterator():
         if message.sender in callers.keys():
-            callers[message.sender] += message.body + "\n"
+            callers[message.sender] += "\n" + message.body
         else:
-            callers[message.sender] = message.body + "\n"
+            callers[message.sender] = message.body
         # read and send message
-        #read_message(message)
-        # then delete it from the archive
-        #message.delete()
+        for key in callers.keys():
+            print callers[key]
     # check schedule
     # schedule next phone check accordingly
 
