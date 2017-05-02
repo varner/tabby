@@ -59,8 +59,8 @@ def during_freetime():
     {"start": time(13), "end": time(17,20,22)}, 
     {"start": time(19,11), "end": time(19, 11)}]
 
-    current = datetime.now().time()
-    local_current = local.localize(current, is_dst=None)
+    current = datetime.now()
+    local_current = local.localize(current, is_dst=None).time()
     for period in schedule: 
         if local_current >= period['start'] and local_current < period['end']:
             return True
