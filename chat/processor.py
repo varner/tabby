@@ -20,9 +20,9 @@ def check_phone():
     messages = Message.objects.all().order_by('sent')
     for message in messages.iterator():
         if message.sender in callers.keys():
-            callers[message.sender] += message.sent + "\n"
+            callers[message.sender] += message.body + "\n"
         else:
-            callers[message.sender] = message.sent + "\n"
+            callers[message.sender] = message.body + "\n"
         # read and send message
         #read_message(message)
         # then delete it from the archive
