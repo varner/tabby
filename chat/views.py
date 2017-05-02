@@ -16,6 +16,7 @@ def index(request):
 
 @login_required
 def enable_chaos(request):
+    processor.check_phone()
     return HttpResponse("CHAOS....ENACTED...!!!")
 
 @csrf_exempt

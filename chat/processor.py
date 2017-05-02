@@ -11,7 +11,7 @@ import logging
 
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
-def check_phone(last_checked):
+def check_phone():
    #collect_messages(last_checked)
 
     callers = dict()
