@@ -4,14 +4,19 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-#from django_twilio.decorators import twilio_view
 from twilio.twiml import Response
 from chat.models import Caller, Message
+# ----- experimental section ------
+from . import processor
 
 
 # Create your views here.
 def index(request):
     return HttpResponse("GET OUT!")
+
+@login_required
+def enable_chaos(request):
+    return HttpResponse("CHAOS....ENACTED...!!!")
 
 @csrf_exempt
 def sms(request):

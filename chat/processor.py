@@ -16,11 +16,9 @@ def check_phone(last_checked):
 
     callers = dict()
     # read all the messages, compress into bundles
-    messages = Message.objects.all()
+    messages = Message.objects.all().order_by('date').reverse()
     for message in messages.iterator():
-        if message.sender in callers.keys():
-            callers[message.sender] = callers[message.sender] + "" message.body
-        message.delete()
+        pass
         # read and send message
         #read_message(message)
         # then delete it from the archive
