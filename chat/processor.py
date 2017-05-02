@@ -9,6 +9,8 @@ import pytz
 
 import logging
 
+logger = logging.getLogger(__name__)
+
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
 def check_phone():
@@ -18,7 +20,7 @@ def check_phone():
     # read all the messages, compress into bundles
     messages = Message.objects.all().order_by('sent').reverse()
     for message in messages.iterator():
-        console.log(message.sender)
+        logger.error(message.sender)
         # read and send message
         #read_message(message)
         # then delete it from the archive
