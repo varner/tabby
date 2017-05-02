@@ -23,15 +23,16 @@ def check_phone():
             callers[message.sender] += "\n" + message.body
         else:
             callers[message.sender] = message.body
+        message.delete()
     # read and send message
     for key in callers.keys():
         print key, "KEYS"
-        print callers[key]
+        read_message(key, callers[key])
     # check schedule
     # schedule next phone check accordingly
 
-def read_message(message):
-    caller = message.sender
+def read_message(phone, message):
+    caller = Caller.objects.get(phone=phone)
     body   = message.body.lower()
     lvl    = caller.level
 
