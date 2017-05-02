@@ -54,8 +54,8 @@ def send_message(username, message):
     )
 
 def during_freetime():
-    local = pytz.timezone ("America/New_York")
-    schedule = [
+    local = pytz.timezone("America/New_York")
+    schedule = [\
     {"start": time(0),     "end": time(3),      "mode": "freaky"}, 
     {"start": time(3,1,17),"end": time(7,0,23), "mode": "cat_marnell"} 
     {"start": time(9,30),  "end": time(12,00),  "mode": "one_word"}, 
