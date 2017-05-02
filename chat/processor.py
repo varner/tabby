@@ -19,7 +19,10 @@ def check_phone():
     # read all the messages, compress into bundles
     messages = Message.objects.all().order_by('sent')
     for message in messages.iterator():
-        print message.sender, message.sent
+        if message.sender in callers.keys():
+            callers[message.sender] += message.sent + "\n"
+        else:
+            callers[message.sender] = message.sent + "\n"
         # read and send message
         #read_message(message)
         # then delete it from the archive
