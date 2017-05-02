@@ -23,10 +23,10 @@ def check_phone():
             callers[message.sender] += "\n" + message.body
         else:
             callers[message.sender] = message.body
-        # read and send message
-        for key in callers.keys():
-            print key, "KEYS"
-            print callers[key]
+    # read and send message
+    for key in callers.keys():
+        print key, "KEYS"
+        print callers[key]
     # check schedule
     # schedule next phone check accordingly
 
