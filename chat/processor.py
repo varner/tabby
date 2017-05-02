@@ -9,7 +9,7 @@ import pytz
 
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
