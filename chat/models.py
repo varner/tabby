@@ -28,6 +28,7 @@ class Caller(models.Model):
 
     def advanceLevel(self):
         self.level += 1
+        self.save()
         return self.level
 
     def __str__(self):
