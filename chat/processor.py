@@ -7,9 +7,8 @@ from twilio.rest import TwilioRestClient as Client
 from datetime import datetime, date
 import pytz
 
-import logging
 
-logger = logging.getLogger()
+
 
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
@@ -20,7 +19,7 @@ def check_phone():
     # read all the messages, compress into bundles
     messages = Message.objects.all().order_by('sent').reverse()
     for message in messages.iterator():
-        logger.error(message.sender)
+        print message.sender
         # read and send message
         #read_message(message)
         # then delete it from the archive
