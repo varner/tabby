@@ -17,7 +17,7 @@ def check_phone():
 
     callers = dict()
     # read all the messages, compress into bundles
-    messages = Message.objects.all().order_by('sent').reverse()
+    messages = Message.objects.all().order_by('sent')
     for message in messages.iterator():
         print message.sender, message.sent
         # read and send message
