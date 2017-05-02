@@ -28,7 +28,7 @@ class Caller(models.Model):
 
     def advanceLevel(self):
         self.level += 1
-        return level
+        return self.level
 
     def __str__(self):
         return self.phone
