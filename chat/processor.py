@@ -44,6 +44,8 @@ def read_message(phone, message):
     elif lvl == 1:
         send_message(caller.phone, "hi %s" % body)
         caller.advanceLevel()
+        caller.name = body
+        caller.save()
         #caller.level = 2
        # caller.name = body
     elif lvl == 2:
