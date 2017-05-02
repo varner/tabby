@@ -54,20 +54,20 @@ def send_message(username, message):
     )
 
 def during_freetime():
-    im_scared = [{ "start": datetime.time(7, 30, 0), \
-      "end": datetime.time(10, 30, 0) \
-    }, { "start": datetime.time(13, 0, 0), \
-      "end": datetime.time(17, 20, 0) \
-    }, { "start": datetime.time(19, 11, 0), \
-      "end": datetime.time(19, 55, 0) \
-    }, { "start": datetime.time(20, 5, 0), \
-      "end": datetime.time(23, 3, 20) \
-    }]
-
-    current = datetime.now().time()
-    for period in im_scared: 
-        if current >= period['start'] and current < period['end']:
-            return True
+    #im_scared = [{ "start": datetime.time(7, 30, 0), \
+    #  "end": datetime.time(10, 30, 0) \
+    #}, { "start": datetime.time(13, 0, 0), \
+    #  "end": datetime.time(17, 20, 0) \
+    #}, { "start": datetime.time(19, 11, 0), \
+    #  "end": datetime.time(19, 55, 0) \
+    #}, { "start": datetime.time(20, 5, 0), \
+    #  "end": datetime.time(23, 3, 20) \
+    #}]
+#
+    #current = datetime.now().time()
+    #for period in im_scared: 
+    #    if current >= period['start'] and current < period['end']:
+    #        return True
     return False
 #def ask_name(caller, message):
 #   caller.level = 1
