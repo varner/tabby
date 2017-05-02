@@ -54,13 +54,15 @@ def send_message(username, message):
     )
 
 def during_freetime():
+    local = pytz.timezone ("America/New_York")
     schedule = [{"start": time(7,30), "end": time(10,30)}, 
     {"start": time(13), "end": time(17,20,22)}, 
     {"start": time(19,11), "end": time(19, 11)}]
-    
+
     current = datetime.now().time()
+    local_current = local.localize(current, is_dst=None)
     for period in schedule: 
-        if current >= period['start'] and current < period['end']:
+        if local_current >= period['start'] and local_current < period['end']:
             return True
     return False
 #def ask_name(caller, message):
