@@ -8,6 +8,7 @@ from twilio.twiml import Response
 from chat.models import Caller, Message
 # ----- experimental section ------
 from . import processor
+from datetime import datetime
 
 
 # Create your views here.
@@ -17,6 +18,7 @@ def index(request):
 @login_required
 def enable_chaos(request):
     processor.check_phone()
+    print datetime.now().time(), processor.during_freetime()
     return HttpResponse("CHAOS....ENACTED...!!!")
 
 @csrf_exempt

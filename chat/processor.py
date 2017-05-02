@@ -1,20 +1,14 @@
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.conf import settings
-
 from chat.models import Caller, Message
 from twilio.rest import TwilioRestClient as Client
 from datetime import datetime, date
 import pytz
 
-
-
-
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
 def check_phone():
-   #collect_messages(last_checked)
-
     callers = dict()
     # read all the messages, compress into bundles
     messages = Message.objects.all().order_by('sent')
@@ -59,6 +53,25 @@ def send_message(username, message):
         body=message,
     )
 
+def during_freetime():
+    schedule = [{ "start": datetime.time(7, 30, 0),
+      "end": datetime.time(10, 30, 0)
+    }, 
+    { "start": datetime.time(13, 0, 0),
+      "end": datetime.time(17, 20, 0)
+    },
+    { "start": datetime.time(19, 11, 0),
+      "end": datetime.time(19, 55, 0)
+    },
+    { "start": datetime.time(20, 5, 0),
+      "end": datetime.time(23, 3, 20)
+    }]
+
+    current = datetime.now().time()
+    for period in schedule: 
+        if current >= period['start'] and current < period['end']:
+            return True
+    return False
 #def ask_name(caller, message):
 #   caller.level = 1
 #   caller.save()
