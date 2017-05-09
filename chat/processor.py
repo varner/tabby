@@ -41,7 +41,7 @@ def read_message(phone, message):
         caller.setName(body) # set the name regardless because we can always rewrite if incorrect
         if is_rude(message):
             send_message(caller.phone, "uhm")
-            end_message(caller.phone, "are u sure about that")
+            send_message(caller.phone, "are u sure about that")
             caller.setLevel(2)
         else:
             send_message(caller.phone, "hi %s%s" % (body, "!" * randint(0, 5)))
