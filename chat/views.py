@@ -8,7 +8,7 @@ from twilio.twiml import Response
 from chat.models import Caller, Message
 # ----- experimental section ------
 from . import processor
-from .tasks import process_messages
+from . import tasks
 from datetime import datetime
 
 
@@ -19,7 +19,7 @@ def index(request):
 @login_required
 def enable_chaos(request):
     print datetime.now().time(), processor.during_freetime()
-    process_messages()
+    tasks.process_messages()
     return HttpResponse("CHAOS....ENACTED...!!!")
 
 @csrf_exempt
