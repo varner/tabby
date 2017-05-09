@@ -26,10 +26,15 @@ class Caller(models.Model):
     def isActive(self):
         return (self.subscription_end >= timezone.now().date())
 
-    def advanceLevel(self):
-        self.level += 1
+    def setLevel(self, level):
+        self.level = level
         self.save()
         return self.level
+
+    def setName(self, name):
+        self.name = name
+        self.save()
+        return self.name
 
     def __str__(self):
         return self.phone
