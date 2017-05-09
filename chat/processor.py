@@ -35,7 +35,7 @@ def read_message(phone, message):
     lvl    = caller.level
 
     if   lvl == 0:
-        send_message(caller.phone, "hi%s uhhhh wats ur name lol" % ("!" * randint(0, 10)))
+        send_message(caller.phone, "what's your name")
         caller.setLevel(1)
     elif lvl == 1:
         caller.setName(body) # set the name regardless because we can always rewrite if incorrect
@@ -50,7 +50,7 @@ def read_message(phone, message):
         # if was rude
         # yes
         if "y" in body:
-            send_message(caller.phone, "ok whatever %s.......")
+            send_message(caller.phone, "ok whatever %s......." % body)
             caller.setLevel(3)
         else:
             # try again
@@ -86,7 +86,7 @@ def is_rude(message):
 
     rude = False
     for swear in swears:
-        if swear in message:
+        if swear in message.split(" "):
             rude = True
     return rude
 
@@ -108,35 +108,3 @@ def during_freetime():
             print period['mode']
             return period['mode']
     return False
-#def ask_name(caller, message):
-#   caller.level = 1
-#   caller.save()
-#
-#   send_message(username, "uhh who r u")
-#       
-#
-#def confirm_name(caller, message):
-#   name = message.body.lower().strip()
-#
-#   caller.name = name
-#   caller.level = 2
-#   caller.save()
-#
-#   send_message(username, "so ur name is %s?")
-#
-#def clarify_name(caller, message):
-#   name = message.body.lower().strip()
-#
-#   caller.name = name
-#   caller.level = 2
-#   caller.save()
-#
-#   send_message(caller.phone, "uhhh so ur name is %s....yes or no??" % name)
-#
-#def affirm_name(caller, message):
-#   response = caller.name + (caller.name[-1] * 4)
-#   send_message(user, response)
-#   send_message(user, "ok good to know")
-#
-#   caller.level = 3
-#   caller.save()
