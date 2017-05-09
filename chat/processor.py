@@ -88,6 +88,7 @@ def is_rude(message):
     for swear in swears:
         if swear in message:
             rude = True
+    return rude
 
 def during_freetime():
     local = pytz.timezone("America/New_York")
