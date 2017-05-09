@@ -67,9 +67,6 @@ def read_message(phone, message):
     else:
         print "help"
     caller.save()
-
-def binary_response(message):
-    if 
     
 def send_message(username, message):
     twilio_client.messages.create(
