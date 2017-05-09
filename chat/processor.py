@@ -7,6 +7,7 @@ from datetime import datetime, date, time
 import pytz
 import urllib2
 from random import randint
+import string
 
 twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
@@ -79,7 +80,8 @@ def send_message(username, message):
 def is_rude(message):
     swear_list = "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
     response = urllib2.urlopen(swear_list)
-    html = response.read()
+    printable = set(string.printable)
+    html = filter(lambda x: x in printable, response.read()) 
     swears = html.split('\n')
 
     rude = False
