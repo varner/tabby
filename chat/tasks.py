@@ -6,4 +6,4 @@ from . import processor
 def process_messages():
 	processor.check_phone()
 	if processor.during_freetime():
-		process_message.apply_async(countdown=30)
+		process_messages.apply_async(countdown=30)
